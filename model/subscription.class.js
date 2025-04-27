@@ -28,7 +28,7 @@ export default class Subscription {
   }
 
   set _subscription(subscription) {
-    if (!subscription) throw new Error('Houve um erro na autorização das notificações, atualize a página e tente novamente.')
+    if (!subscription?.endpoint) throw new Error('Houve um erro na autorização das notificações, atualize a página e tente novamente.')
     this.subscription = subscription
   }
 

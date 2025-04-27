@@ -12,7 +12,7 @@ const Schema = new mongoose.Schema({
     required: [true, 'Por favor, informe seu email.']
   },
   subscription: {
-    type: String,
+    type: Object,
     required: [true, 'Ocorreu um erro com seu registro, tente novamente.']
   },
   events: [],
