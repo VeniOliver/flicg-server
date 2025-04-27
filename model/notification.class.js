@@ -17,10 +17,11 @@ export default class Notification {
 
   async send(params) {
     try {
-      return await this.webpush.sendNotification(params?.subscription, JSON.stringify({
-  title: 'Título aqui',
-  body: 'Mensagem da notificação'
-      }))
+      const payload = JSON.stringify({
+        title: 'Notificação de Teste',
+        body: 'Mensagem recebida com sucesso!'
+      })
+      return await this.webpush.sendNotification(params?.subscription, payload)
     } catch(e) { 
       throw new Error(e.message)
     }
