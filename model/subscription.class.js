@@ -45,22 +45,23 @@ export default class Subscription {
       this._subscription = data?.subscription
       this._events = data?.events
       // Verify duplicate
-      const duplicate = await SubscriptionDB.find({subscription: this.subscription})
+      const duplicate = await SubscriptionDB.find({email: this.email})
       if (duplicate?._id) {
         //update
         let update = await SubscriptionDB.findByIdAndUpdate(duplicate?._id, {$set: { name: this.name, email: this.email, events: this.events}})
-        await this.notification.send({
+        let notification = await this.notification.send({
           subscription: duplicate?.subscription, 
           title:`Cadastro atualizado, ${update?.name?.trim().split(' ')[0]}`,
           body: `Suas preferências no FLICG foram atualizadas com sucesso.`
         })
+        console.log(notification)
         return
       }
       // Create a log entry
       this.logs.push(new Log('create'))
       //create
       let create = await SubscriptionDB.create(this)
-      await this.notification.send({
+      let notification = await this.notification.send({
         subscription: create?.subscription, 
         title: `Cadastro confirmado, ${create?.name?.trim().split(' ')[0]}`,
         body: `Você receberá atualizações do FLICG. Fique ligado(a)!`
