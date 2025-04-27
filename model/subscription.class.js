@@ -66,6 +66,7 @@ export default class Subscription {
         title: `Cadastro confirmado, ${create?.name?.trim().split(' ')[0]}`,
         body: `Você receberá atualizações do FLICG. Fique ligado(a)!`
       })
+      console.log(notification)
       return
     } catch(e) { 
       throw new Error(e.message)
