@@ -50,7 +50,7 @@ export default class Event {
         {
           $sort: { "_id": 1 }
         }
-      ]).toArray()
+      ])
       //format data
       return result.map(day => ({
         date:  moment(day?._id).format('DD/MM'),
