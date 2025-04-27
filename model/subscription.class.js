@@ -49,24 +49,22 @@ export default class Subscription {
       if (duplicate?._id) {
         //update
         let update = await SubscriptionDB.findByIdAndUpdate(duplicate?._id, {$set: { name: this.name, email: this.email, events: this.events}})
-        let notification = await this.notification.send({
+        await this.notification.send({
           subscription: duplicate?.subscription, 
           title:`Cadastro atualizado, ${update?.name?.trim().split(' ')[0]}`,
           body: `Suas preferências no FLICG foram atualizadas com sucesso.`
         })
-        console.log(notification)
         return
       }
       // Create a log entry
       this.logs.push(new Log('create'))
       //create
       let create = await SubscriptionDB.create(this)
-      let notification = await this.notification.send({
+      await this.notification.send({
         subscription: create?.subscription, 
         title: `Cadastro confirmado, ${create?.name?.trim().split(' ')[0]}`,
         body: `Você receberá atualizações do FLICG. Fique ligado(a)!`
       })
-      console.log(notification)
       return
     } catch(e) { 
       throw new Error(e.message)

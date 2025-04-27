@@ -18,8 +18,8 @@ export default class Notification {
   async send(params) {
     try {
       return await this.webpush.sendNotification(params?.subscription, JSON.stringify({
-        title: params?.title,
-        body: params?.body
+  title: 'Título aqui',
+  body: 'Mensagem da notificação'
       }))
     } catch(e) { 
       throw new Error(e.message)
