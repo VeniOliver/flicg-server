@@ -4,8 +4,7 @@ import EventDB from '../service/event.db.js';
 import moment from 'moment';
 import 'moment/locale/pt-br.js';
 
-// importa o idioma
-moment.locale('pt-br') // define como padrão
+moment.locale('pt-br')
 
 
 /**
