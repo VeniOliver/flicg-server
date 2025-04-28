@@ -48,13 +48,13 @@ export default class Subscription {
       const duplicate = await SubscriptionDB.find({email: this.email})
       if (duplicate?._id) {
         //update
-        let update = await SubscriptionDB.findByIdAndUpdate(duplicate?._id, {$set: { name: this.name, email: this.email, events: this.events}})
+        let update = await SubscriptionDB.findByIdAndUpdate(duplicate?._id, {$set: { name: this.name, email: this.email, events: this.events, subscription: this.subscription}})
         await this.notification.send({
           subscription: duplicate?.subscription, 
           title:`Cadastro atualizado, ${update?.name?.trim().split(' ')[0]}`,
           body: `Suas preferências no FLICG foram atualizadas com sucesso.`
         })
-        return
+        return true
       }
       // Create a log entry
       this.logs.push(new Log('create'))
@@ -65,7 +65,7 @@ export default class Subscription {
         title: `Cadastro confirmado, ${create?.name?.trim().split(' ')[0]}`,
         body: `Você receberá atualizações do FLICG. Fique ligado(a)!`
       })
-      return
+      return true
     } catch(e) { 
       throw new Error(e.message)
     }
