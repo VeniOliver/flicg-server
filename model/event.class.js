@@ -17,6 +17,11 @@ export default class Event {
       //get data 
       const result = await EventDB.aggregate([
         {
+          $order: {
+            date: 1
+          }
+        },
+        {
           $addFields: {
             dateOnly: {
               $dateToString: { format: "%Y-%m-%d", date: "$date" }
