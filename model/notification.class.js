@@ -18,8 +18,19 @@ export default class Notification {
   async send(params) {
     try {
       const payload = JSON.stringify({
-        title: params?.title,
-        body: params?.body
+        notification: {
+          title: params?.title,
+          body: params?.body,
+          data: {
+            url: 'https://flicg.venith.com.br'
+          },
+          actions: [
+            {
+              action: "open",
+              title: "Ver programação"
+            }
+          ]
+        }
       })
       return await this.webpush.sendNotification(params?.subscription, payload)
     } catch(e) { 
