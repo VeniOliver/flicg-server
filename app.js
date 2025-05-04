@@ -423,11 +423,11 @@ const data = [
 //
 //}
 
-function adjustDateMinus3Hours(isoString) {
-  const date = new Date(isoString);
-  date.setHours(date.getHours() - 3);
-  return date;
-}
+//function adjustDateMinus3Hours(isoString) {
+//  const date = new Date(isoString);
+//  date.setHours(date.getHours() - 3);
+//  return date;
+//}
 
 //const notif = new Notification()
 //const subscriptions = await SubscriptionDB.find()
@@ -436,7 +436,7 @@ function adjustDateMinus3Hours(isoString) {
 //    let payload = {
 //      subscription: sub?.subscription, 
 //      title:`Olá ${sub?.name?.trim().split(' ')[0]}`,
-//      body: `Está animado para a FLICG 2025? Em breve teremos novidades.`
+//      body: `❤️ Obrigado por se inscrever!`
 //    }
 //    await notif.send(payload)
 //    console.log('sucesso: ', sub?.name)
