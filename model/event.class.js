@@ -1,7 +1,7 @@
 import Error from './error.class.js';
 import Log from './log.class.js';
 import EventDB from '../service/event.db.js';
-import moment from 'moment';
+import moment from 'moment-timezone';
 import 'moment/locale/pt-br.js';
 
 moment.locale('pt-br')
@@ -14,15 +14,19 @@ export default class Event {
 
   async find() {
     try {
-      //get data 
       const result = await EventDB.aggregate([
         {
           $addFields: {
             dateOnly: {
-              $dateToString: { format: "%Y-%m-%d", date: "$date" }
+              $dateToString: {
+                format: "%Y-%m-%d",
+                date: "$date",
+                timezone: "-03:00"
+              }
             }
           }
         },
+        { $sort: { date: 1 } },
         {
           $group: {
             _id: { date: "$dateOnly", space: "$space" },
@@ -50,25 +54,28 @@ export default class Event {
         {
           $sort: { "_id": 1 }
         }
-      ])
-      //format data
+      ]);
+  
       return result.map(day => ({
-        date:  moment(day?._id).format('DD/MM'),
-        day_of_week: moment(day?._id).format('dddd'),
-        spaces: day.spaces.map(space => ({
-          name: space.name,
-          activities: space.activities.map(activity => ({
-            _id: activity?._id,
-            time: moment(activity?.date).format('HH:mm'),
-            title: activity.title,
-            date: activity?.date
+        date: moment.utc(day._id).tz('America/Sao_Paulo').format('DD/MM'),
+        day_of_week: moment.utc(day._id).tz('America/Sao_Paulo').format('dddd'),
+        spaces: day.spaces
+          .sort((a, b) => a.name.localeCompare(b.name)) // ordena pelo nome
+          .map(space => ({
+            name: space.name,
+            activities: space.activities.map(activity => ({
+              _id: activity._id,
+              time: moment.utc(activity.date).tz('America/Sao_Paulo').format('HH:mm'),
+              title: activity.title,
+              date: moment.utc(activity.date).tz('America/Sao_Paulo').toDate()
+            }))
           }))
-        }))
-      }))
-    } catch(e) { 
-      throw new Error(e.message)
+      }));
+      
+    } catch (e) {
+      throw new Error(e.message);
     }
-  }
+  }  
 
 }
 

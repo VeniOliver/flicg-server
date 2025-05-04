@@ -419,9 +419,15 @@ const data = [
 ]
 
 //for (const item of data) {
-//  await EventDB.create({...item, date: new Date(item?.date)})
+//  await EventDB.create({...item, date: adjustDateMinus3Hours(item?.date)})
 //
 //}
+
+function adjustDateMinus3Hours(isoString) {
+  const date = new Date(isoString);
+  date.setHours(date.getHours() - 3);
+  return date;
+}
 
 //const notif = new Notification()
 //const subscriptions = await SubscriptionDB.find()

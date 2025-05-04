@@ -17,6 +17,7 @@
     "express": "^4.21.1",
     "helmet": "^8.0.0",
     "moment": "^2.30.1",
+    "moment-timezone": "^0.5.48",
     "mongoose": "^8.14.0",
     "validator": "^13.15.0",
     "web-push": "^3.6.7"
