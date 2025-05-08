@@ -31,9 +31,6 @@ async function notifyUpcomingEvents() {
     date: { $gte: now.toDate(), $lte: oneHourFromNow.toDate() }
   })
 
-  console.log(upcomingEvents, now, oneHourFromNow)
-
-  //2025-05-08T13:00:00.000+00:00
 
   for (const event of upcomingEvents) {
     const subscribers = await SubscriptionDB.find({
@@ -49,7 +46,7 @@ async function notifyUpcomingEvents() {
         body: `Seu evento começa às ${moment(event.date).format('HH:mm')} em ${event.space}.`
       }
       try {
-        //await notif.send(payload)
+        await notif.send(payload)
         console.log(`Notified: ${subscriber.email}`);
       } catch (err) {
         console.error(`Failed to notify ${subscriber.email}:`, err.message);
@@ -59,7 +56,7 @@ async function notifyUpcomingEvents() {
 }
 
 // Schedule to run every 5 minutes
-setInterval(notifyUpcomingEvents, 0.1 * 60 * 1000);
+setInterval(notifyUpcomingEvents, 15 * 60 * 1000)
 
 
 //function adjustDateMinus3Hours(isoString) {
